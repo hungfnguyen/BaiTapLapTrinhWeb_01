@@ -1,0 +1,29 @@
+package vn.iotstar.services.impl;
+
+import vn.iotstar.dao.impl.UserDaoImpl;
+import vn.iotstar.models.UserModel;
+import vn.iotstar.services.UserService;
+
+public class UserServiceImpl implements UserService {
+	
+	 private UserDaoImpl userDao = new UserDaoImpl();
+	
+	@Override
+	public UserModel login(String username, String password) {
+		// Gọi phương thức của DAO để tìm người dùng
+        return userDao.findByUsernameAndPassword(username, password);
+	}
+
+	public boolean register(String username, String password, String email, String
+			fullname, String phone ) {
+			if (userDao.checkExistUsername(username)) {
+			return false;
+			}
+			long millis=System.currentTimeMillis();
+			java.sql.Date date=new java.sql.Date(millis);
+			userDao.insert(new User(email, username, fullname,password,
+			null,5,phone,date));
+			return true;
+			}
+
+}

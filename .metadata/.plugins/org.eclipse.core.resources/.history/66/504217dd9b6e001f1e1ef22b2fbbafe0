@@ -1,0 +1,126 @@
+package vn.iotstar.dao.impl;
+
+import java.awt.print.Printable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mysql.cj.protocol.Resultset;
+
+import vn.iotstar.configs.DBConnectMySQL;
+import vn.iotstar.dao.IUserDao;
+import vn.iotstar.models.UserModel;
+
+public class UserDaoImpl extends DBConnectMySQL implements IUserDao{
+
+	public Connection conn = null;
+	public PreparedStatement ps = null;
+	public ResultSet rs = null;
+	
+	@Override
+	public List<UserModel> findAll() {
+		
+		String sql = "SELECT * FROM users";
+		
+		List<UserModel> list = new ArrayList<>(); // tạo 1 list để truyền dữ liệu
+		
+		
+		try {
+			conn = super.getDatabaseConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) { //next từng hàng tới cuối bảng
+				list.add(new UserModel(
+						rs.getInt("id"),
+						rs.getString("username"),
+						rs.getString("email"),
+						rs.getString("fullname"),
+						rs.getString("images"),
+						rs.getString("password")));
+
+			}
+			return list;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public UserModel findById(int id) {
+		String sql = "SELECT * FROM users WHERE id = ?";
+		
+		try {
+			//ket noi database
+			conn = super.getDatabaseConnection();
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, id);
+			
+			ps.executeUpdate();
+			
+			rs = ps.executeQuery();
+			
+			if (rs != null) {
+				return new UserModel(
+						rs.getInt("id"),
+						rs.getString("username"),
+						rs.getString("email"),
+						rs.getString("fullname"),
+						rs.getString("images"),
+						rs.getString("password"));
+			}
+			
+			} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return null;
+	}
+
+	@Override
+	public void insert(UserModel user) {
+		String sql = "INSERT INTO users(id, username, email, fullname, images, password)"
+					+ " VALUES(?, ?, ?, ?, ?, ?)";
+		
+		try {
+			conn = super.getDatabaseConnection(); //ket noi database
+			ps = conn.prepareStatement(sql);	//nem cau lenh sql vao de thuc thi
+			
+			ps.setInt(1, user.getId());
+			ps.setString(2, user.getUsername());
+			ps.setString(3, user.getEmail());
+			ps.setString(4, user.getFullname());
+			ps.setString(5, user.getImages());
+			ps.setString(6, user.getPassword());
+			
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		UserDaoImpl userDaoImpl = new UserDaoImpl();
+		
+		//userDaoImpl.insert(new UserModel(2, "honghai", "honghai@gmail.com", "mai hong hai", null, "123"));
+		
+		UserModel user = userDaoImpl.findById(1);
+		System.out.println(user);
+		
+		List<UserModel> list = userDaoImpl.findAll();
+
+		for(UserModel userModel : list) {
+			System.out.println(userModel);
+		}
+	}
+}
