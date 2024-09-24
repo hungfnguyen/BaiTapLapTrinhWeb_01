@@ -1,7 +1,0 @@
-package vn.iotstar.services.impl;
-
-import vn.iotstar.services.UserService;
-
-public class UserServiceImpl implements UserService{
-
-}

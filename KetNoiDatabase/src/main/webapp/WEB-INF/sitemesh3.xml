@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sitemesh>
+	<!-- Áp dụng decorator 'web.jsp' cho tất cả các đường dẫn -->
+	<mapping path="/*" name="web" decorator="web.jsp" />
+	
+	<!-- Áp dụng decorator 'admin.jsp' cho các đường dẫn bắt đầu với '/admin/' -->
+	<mapping path="/admin/*" name="admin" decorator="admin.jsp" />
+	
+	<!-- Loại trừ các đường dẫn bắt đầu với '/api' khỏi việc áp dụng decorator -->
+	<mapping path="/api*" exclude="true" />
+</sitemesh>

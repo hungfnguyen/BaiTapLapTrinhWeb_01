@@ -10,11 +10,12 @@ import java.util.List;
 import com.mysql.cj.protocol.Resultset;
 
 import vn.iotstar.configs.DBConnectMySQL;
+import vn.iotstar.configs.DBConnectSQLServer;
 import vn.iotstar.dao.IUserDao;
 import vn.iotstar.models.UserModel;
 import vn.iotstar.services.impl.UserServiceImpl;
 
-public class UserDaoImpl extends DBConnectMySQL implements IUserDao {
+public class UserDaoImpl extends DBConnectSQLServer implements IUserDao {
 
 	public Connection conn = null;
 	public PreparedStatement ps = null;
@@ -28,13 +29,22 @@ public class UserDaoImpl extends DBConnectMySQL implements IUserDao {
 		List<UserModel> list = new ArrayList<>(); // tạo 1 list để truyền dữ liệu
 
 		try {
-			conn = super.getDatabaseConnection();
+			conn = super.getConnection();
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 
 			while (rs.next()) { // next từng hàng tới cuối bảng
-				list.add(new UserModel(rs.getInt("id"), rs.getString("username"), rs.getString("email"),
-						rs.getString("fullname"), rs.getString("images"), rs.getString("password")));
+				
+				list.add(new UserModel(
+						rs.getInt("id"), 
+						rs.getString("username"), 
+						rs.getString("email"),
+						rs.getString("password"),
+						rs.getString("fullname"), 
+						rs.getString("images"), 
+						rs.getInt("roleid"), 
+						rs.getString("phone"),
+						rs.getDate("createdDate")));
 
 			}
 			return list;
@@ -45,36 +55,13 @@ public class UserDaoImpl extends DBConnectMySQL implements IUserDao {
 		return null;
 	}
 	
-	public UserModel findByUsernameAndPassword(String username, String password) {
-	    String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-
-	    try {
-	        conn = super.getDatabaseConnection();
-	        ps = conn.prepareStatement(sql);
-	        ps.setString(1, username);
-	        ps.setString(2, password);
-	        rs = ps.executeQuery();
-
-	        if (rs.next()) {
-	            return new UserModel(rs.getInt("id"), rs.getString("username"), rs.getString("email"),
-	                    rs.getString("fullname"), rs.getString("images"), rs.getString("password"));
-	        }
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-
-	    return null;
-	}
-
-	
 	@Override
 	public UserModel findById(int id) {
 		String sql = "SELECT * FROM users WHERE id = ?";
 
 		try {
 			// ket noi database
-			conn = super.getDatabaseConnection();
+			conn = super.getConnection();
 			ps = conn.prepareStatement(sql);
 
 			ps.setInt(1, id);
@@ -86,8 +73,15 @@ public class UserDaoImpl extends DBConnectMySQL implements IUserDao {
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				return new UserModel(rs.getInt("id"), rs.getString("username"), rs.getString("email"),
-						rs.getString("fullname"), rs.getString("images"), rs.getString("password"));
+				return new UserModel(rs.getInt("id"), 
+						rs.getString("username"), 
+						rs.getString("email"),
+						rs.getString("password"),
+						rs.getString("fullname"), 
+						rs.getString("images"), 
+						rs.getInt("roleid"), 
+						rs.getString("phone"),
+						rs.getDate("createdDate"));
 			}
 
 		} catch (Exception e) {
@@ -101,18 +95,20 @@ public class UserDaoImpl extends DBConnectMySQL implements IUserDao {
 
 	@Override
 	public void insert(UserModel user) {
-		String sql = "INSERT INTO users(id, username, email, fullname, images, password)" + " VALUES(?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO users(username, email, password, fullname, images, roleid, phone, createdDate)" + " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try {
-			conn = super.getDatabaseConnection(); // ket noi database
+			conn = super.getConnection(); // ket noi database
 			ps = conn.prepareStatement(sql); // nem cau lenh sql vao de thuc thi
 
-			ps.setInt(1, user.getId());
-			ps.setString(2, user.getUsername());
-			ps.setString(3, user.getEmail());
+			ps.setString(1, user.getUsername());
+			ps.setString(2, user.getEmail());
+			ps.setString(3, user.getPassword());
 			ps.setString(4, user.getFullname());
 			ps.setString(5, user.getImages());
-			ps.setString(6, user.getPassword());
+			ps.setInt(6, user.getRoleid());
+			ps.setString(7, user.getPhone());
+			ps.setDate(8, user.getCreatesDate());
 
 			ps.executeUpdate();
 
@@ -129,14 +125,21 @@ public class UserDaoImpl extends DBConnectMySQL implements IUserDao {
 		String sql = "SELECT * FROM users WHERE username = ? ";
 
 	    try {
-	        conn = super.getDatabaseConnection();
+	        conn = super.getConnection();
 	        ps = conn.prepareStatement(sql);
 	        ps.setString(1, username);
 	        rs = ps.executeQuery();
 
-	        if (rs.next()) {
-	            return new UserModel(rs.getInt("id"), rs.getString("username"), rs.getString("email"),
-	                    rs.getString("fullname"), rs.getString("images"), rs.getString("password"));
+	        while (rs.next()) {
+	            return new UserModel(rs.getInt("id"), 
+						rs.getString("username"), 
+						rs.getString("email"),
+						rs.getString("password"),
+						rs.getString("fullname"), 
+						rs.getString("images"), 
+						rs.getInt("roleid"), 
+						rs.getString("phone"),
+						rs.getDate("createdDate"));
 	        }
 
 	    } catch (Exception e) {
@@ -153,7 +156,7 @@ public class UserDaoImpl extends DBConnectMySQL implements IUserDao {
 
 	    try {
 	        // Kết nối cơ sở dữ liệu
-	        conn = super.getDatabaseConnection(); 
+	        conn = super.getConnection(); 
 	        ps = conn.prepareStatement(query);
 	        ps.setString(1, email);
 
@@ -187,7 +190,7 @@ public class UserDaoImpl extends DBConnectMySQL implements IUserDao {
 
 	    try {
 	        // Kết nối đến cơ sở dữ liệu
-	        conn = super.getDatabaseConnection(); 
+	        conn = super.getConnection(); 
 	        ps = conn.prepareStatement(query);
 	        ps.setString(1, username);
 
@@ -215,24 +218,49 @@ public class UserDaoImpl extends DBConnectMySQL implements IUserDao {
 	}
 	
 	public static void main(String[] args) {
-	    UserServiceImpl userService = new UserServiceImpl();
-	    
-	    // Thay vì gọi insert, bạn nên gọi hàm register để kiểm tra username/email trùng lặp
-	    boolean isRegistered = userService.register("tanhung", "tanhung@gmail.com", "mai hong hai", null, "123");
-	    
-	    if (isRegistered) {
-	        System.out.println("Đăng ký thành công!");
-	    } else {
-	        System.out.println("Username hoặc Email đã tồn tại.");
-	    }
 
-	    // Hiển thị danh sách người dùng
-	    UserDaoImpl userDaoImpl = new UserDaoImpl();
-	    List<UserModel> list = userDaoImpl.findAll();
+		
+		try {
+			IUserDao userDao = new UserDaoImpl();
+			System.out.println(userDao.findByUserName("tanhung"));
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
 
-	    for (UserModel userModel : list) {
-	        System.out.println(userModel);
-	    }
+	@Override
+	public boolean checkExistPhone(String phone) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public UserModel FindByEmail(String email) {
+		String sql = "SELECT * FROM users WHERE email = ? ";
+		try {
+			conn = super.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, email);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				UserModel user = new UserModel();
+				user.setId(rs.getInt("id"));
+				user.setUsername(rs.getString("username"));
+				user.setFullname(rs.getString("fullname"));
+				user.setPassword(rs.getString("password"));
+				user.setImages(rs.getString("images"));
+				user.setEmail(rs.getString("email"));
+				user.setRoleid(Integer.parseInt(rs.getString("roleid")));
+				user.setPhone(rs.getString("phone"));
+				user.setCreatesDate(null);
+				return user;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

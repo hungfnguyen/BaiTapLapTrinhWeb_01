@@ -2,6 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="D:\Spring\workspace-learn-spring\KetNoiDatabase\src\main\java\vn\iotstar\services\impl\UserServiceImpl.java"/>
+			<item value="D:\Spring\workspace-learn-spring\KetNoiDatabase\src\main\java\vn\iotstar\controllers"/>
 			<item value="D:\Spring\workspace-learn-spring\Servers"/>
 		</list>
 		<list key="projectNameTemplate">
@@ -44,12 +46,19 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="sd"/>
 			<item value="vn.iotstar"/>
+			<item value="test"/>
+			<item value="HelloWorld"/>
 			<item value="hungfnguyen"/>
 		</list>
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="sdd"/>
+			<item value="laptrinhweb"/>
+			<item value="test"/>
+			<item value="vn.iotstar"/>
 			<item value="KetNoiDatabase"/>
 		</list>
 		<list key="projectNameTemplate">
@@ -61,8 +70,8 @@
 			<item value="[name]"/>
 		</list>
 		<list key="version">
-			<item value="0.0.1-SNAPSHOT"/>
 			<item value="1.0"/>
+			<item value="0.0.1-SNAPSHOT"/>
 		</list>
 	</section>
 	<section name="org.eclipse.m2e.core.pom.overview">

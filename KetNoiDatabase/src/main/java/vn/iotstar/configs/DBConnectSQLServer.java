@@ -35,18 +35,22 @@ public class DBConnectSQLServer {
 			if (instance == null || instance.trim().isEmpty()) {
 				url = "jdbc:sqlserver://" + serverName + ":" + portNumber + ";databaseName=" + dbName;
 
-			}										//, userID, password
-			conn = DriverManager.getConnection(url, userID, password);
+			}				
+			
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			//, userID, password
+			return DriverManager.getConnection(url, userID, password);
 
-			if (conn != null) {
-				DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
-				System.out.println("Driver name: " + dm.getDriverName());
-				System.out.println("Driver version: " + dm.getDriverVersion());
-				System.out.println("Product name: " + dm.getDatabaseProductName());
-				System.out.println("Product version: " + dm.getDatabaseProductVersion());
-
-				return conn;
-			}
+			/*
+			 * if (conn != null) { DatabaseMetaData dm = (DatabaseMetaData)
+			 * conn.getMetaData(); System.out.println("Driver name: " + dm.getDriverName());
+			 * System.out.println("Driver version: " + dm.getDriverVersion());
+			 * System.out.println("Product name: " + dm.getDatabaseProductName());
+			 * System.out.println("Product version: " + dm.getDatabaseProductVersion());
+			 * 
+			 * return conn; }
+			 */
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

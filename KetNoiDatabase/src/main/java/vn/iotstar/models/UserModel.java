@@ -1,8 +1,9 @@
 package vn.iotstar.models;
 
 import java.io.Serializable;
+import java.sql.Date;
 
-public class UserModel implements Serializable{
+public class UserModel implements Serializable {
 	/**
 	 * 
 	 */
@@ -14,12 +15,16 @@ public class UserModel implements Serializable{
 	private String password;
 	private String fullname;
 	private String images;
-	
+	private int roleid;
+	private String phone;
+	private Date createsDate;
+
 	public UserModel() {
 		super();
 	}
 
-	public UserModel(int id, String username, String email, String fullname,String images, String password) {
+	public UserModel(int id, String username, String email, String password, String fullname, String images, int roleid,
+			String phone, Date createsDate) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -27,6 +32,22 @@ public class UserModel implements Serializable{
 		this.password = password;
 		this.fullname = fullname;
 		this.images = images;
+		this.roleid = roleid;
+		this.phone = phone;
+		this.createsDate = createsDate;
+	}
+
+	public UserModel(String username, String email, String password, String fullname, String images, int roleid,
+			String phone, Date createsDate) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.fullname = fullname;
+		this.images = images;
+		this.roleid = roleid;
+		this.phone = phone;
+		this.createsDate = createsDate;
 	}
 
 	public int getId() {
@@ -77,13 +98,35 @@ public class UserModel implements Serializable{
 		this.images = images;
 	}
 
-	@Override
-	public String toString() {
-		return "UserModel [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", fullname=" + fullname + ", images=" + images + "]";
+	public int getRoleid() {
+		return roleid;
 	}
 
-	
-	
+	public void setRoleid(int roleid) {
+		this.roleid = roleid;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Date getCreatesDate() {
+		return createsDate;
+	}
+
+	public void setCreatesDate(Date createsDate) {
+		this.createsDate = createsDate;
+	}
+
+	@Override
+	public String toString() {
+		return "UserModel [username=" + username + ", email=" + email + ", password=" + password + ", fullname="
+				+ fullname + ", images=" + images + ", roleid=" + roleid + ", phone=" + phone + ", createsDate="
+				+ createsDate + "]";
+	}
 
 }

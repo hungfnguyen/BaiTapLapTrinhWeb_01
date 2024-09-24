@@ -2,11 +2,8 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="java.sql.SQLException"/>
     <fullyQualifiedTypeName name="java.sql.DriverManager"/>
-    <fullyQualifiedTypeName name="vn.iotstar.configs.DBConnectSQLServer"/>
     <fullyQualifiedTypeName name="com.mysql.cj.jdbc.DatabaseMetaData"/>
-    <fullyQualifiedTypeName name="java.io.Serializable"/>
     <fullyQualifiedTypeName name="org.w3c.dom.UserDataHandler"/>
-    <fullyQualifiedTypeName name="vn.iotstar.dao.IUserDao"/>
     <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="com.mysql.cj.xdevapi.PreparableStatement"/>
     <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
@@ -16,8 +13,23 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.awt.print.Printable"/>
     <fullyQualifiedTypeName name="vn.iotstar.services.UserService"/>
-    <fullyQualifiedTypeName name="vn.iotstar.dao.impl.UserDaoImpl"/>
-    <fullyQualifiedTypeName name="vn.iotstar.models.UserModel"/>
     <fullyQualifiedTypeName name="vn.iotstar.configs.DBConnectMySQL"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="java.io.Serializable"/>
+    <fullyQualifiedTypeName name="vn.iotstar.configs.DBConnectSQLServer"/>
+    <fullyQualifiedTypeName name="org.apache.coyote.http11.Http11InputBuffer"/>
+    <fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
+    <fullyQualifiedTypeName name="vn.iotstar.dao.IUserDao"/>
+    <fullyQualifiedTypeName name="vn.iotstar.dao.impl.UserDaoImpl"/>
+    <fullyQualifiedTypeName name="jakarta.servlet.http.Cookie"/>
+    <fullyQualifiedTypeName name="org.eclipse.tags.shaded.org.apache.bcel.classfile.Constant"/>
+    <fullyQualifiedTypeName name="java.awt.Image"/>
+    <fullyQualifiedTypeName name="vn.iotstar.utils.Constant"/>
+    <fullyQualifiedTypeName name="vn.iotstar.services.IUserService"/>
+    <fullyQualifiedTypeName name="java.io.PrintWriter"/>
+    <fullyQualifiedTypeName name="vn.iotstar.models.UserModel"/>
     <fullyQualifiedTypeName name="vn.iotstar.services.impl.UserServiceImpl"/>
+    <fullyQualifiedTypeName name="jakarta.servlet.http.HttpServlet"/>
+    <fullyQualifiedTypeName name="jakarta.servlet.annotation.WebServlet"/>
+    <fullyQualifiedTypeName name="jakarta.servlet.http.HttpSession"/>
 </qualifiedTypeNameHistroy>
