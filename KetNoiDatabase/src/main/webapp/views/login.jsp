@@ -17,7 +17,7 @@
 						<label for="email" class="col-lg-4 control-label">Username <span
 							class="require">*</span></label>
 						<div class="col-lg-8">
-							<input type="text" class="form-control" id="username" name="username">
+							<input type="text" class="form-control" id="username" name="uname">
 						</div>
 					</div>
 					<div class="form-group">

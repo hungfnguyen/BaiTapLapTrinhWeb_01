@@ -1,51 +1,30 @@
-<%-- <%@ page language="java" contentType="text/html; UTF-8"
-	pageEncoding="UTF-8"%> --%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-	
-	<%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
-<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<div class="form-container">
-		<h1>Register</h1>
-		<form action="/KetNoiDatabase/register" method="post">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-			<c:if test="${alert !=null}">
-				<h3 class="alert alertdanger">${alert}</h3>
-			</c:if>
-			<table>
-
-
-				<tr>
-					<td>Username</td>
-					<td><input type="text" name="username" required /></td>
-				</tr>
-				<tr>
-					<td>Email</td>
-					<td><input type="text" name="email" required /></td>
-				</tr>
-				<tr>
-					<td>Fullname</td>
-					<td><input type="text" name="fullname" /></td>
-				</tr>
-				<tr>
-					<td>Phone</td>
-					<td><input type="text" name="phone" required /></td>
-				</tr>
-				<tr>
-					<td>Password</td>
-					<td><input type="password" name="password" required /></td>
-				</tr>
-			</table>
-			<input type="submit" value="Submit" />
-		</form>
-	</div>
-</body>
-</html>
+<!-- BEGIN REGISTER FORM -->
+<div class="container">
+	<h2>Register</h2>
+	<form action="${pageContext.request.contextPath}/register" method="post">
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input type="text" class="form-control" id="username" name="username" required>
+		</div>
+		<div class="form-group">
+			<label for="fullname">Full Name</label>
+			<input type="text" class="form-control" id="fullname" name="fullname" required>
+		</div>
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input type="email" class="form-control" id="email" name="email" required>
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" class="form-control" id="password" name="password" required>
+		</div>
+		<div class="form-group">
+			<label for="confirm_password">Confirm Password</label>
+			<input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+		</div>
+		<button type="submit" class="btn btn-primary">Register</button>
+	</form>
+</div>
+<!-- END REGISTER FORM -->
