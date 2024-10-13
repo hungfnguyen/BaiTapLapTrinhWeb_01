@@ -46,8 +46,9 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
-			<item value="sd"/>
 			<item value="vn.iotstar"/>
+			<item value="vn.iotstart"/>
+			<item value="sd"/>
 			<item value="test"/>
 			<item value="HelloWorld"/>
 			<item value="hungfnguyen"/>
@@ -55,6 +56,7 @@
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="hung"/>
 			<item value="sdd"/>
 			<item value="laptrinhweb"/>
 			<item value="test"/>
