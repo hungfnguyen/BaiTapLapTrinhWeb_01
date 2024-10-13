@@ -1,19 +1,25 @@
 package vn.iotstar.controllers.admin;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale.Category;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import vn.iotstar.models.CategoryModel;
 import vn.iotstar.services.ICategoryService;
 import vn.iotstar.services.impl.CategoryServiceImpl;
 import static vn.iotstar.utils.Constant.*;
 
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+	maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 @WebServlet(urlPatterns = {"/admin/categories",
 		"/admin/category/add",
 		"/admin/category/insert",
@@ -80,8 +86,32 @@ public class CategoryController extends HttpServlet{
 			
 			String fname ="";
 			String uploadPath = DIR;
+			File uploadDir = new File(uploadPath);
+			if (!uploadDir.exists()) {
+				uploadDir.mkdir();
+			}
 			
-			category.setImages(fname);
+			try {
+				Part part = req.getPart("images");
+				if(part.getSize() > 0) {
+					String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+					// doi ten file
+					int index = filename.lastIndexOf(".");
+					String ext = filename.substring(index+1);
+					fname = System.currentTimeMillis() + "." + ext;
+					//upload file
+					part.write(uploadPath + "/" + fname);
+					
+					//ghi ten file vao data
+					category.setImages(fname);
+				}else {
+					category.setImages("avatar.png");
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			
 			cateService.insert(category);
 			resp.sendRedirect(req.getContextPath() + "/admin/categories");
@@ -92,14 +122,45 @@ public class CategoryController extends HttpServlet{
 			String categoryname = req.getParameter("categoryname");
 			String status = req.getParameter("status");
 			int statuss = Integer.parseInt(status);
-			String images = "https://thongsokythuat.vn/wp-content/uploads/Dien-thoai-Google-Pixel-6-Pro-5G-2021-600x600.jpg";
+			
 			
 			CategoryModel category = new CategoryModel();
-			
 			category.setCategoryid(categoryid);
 			category.setCategoryname(categoryname);
-			category.setImages(images);
 			category.setStatus(statuss);
+			
+			//luu hinh cu
+			CategoryModel cateold = cateService.findById(categoryid);
+			String fileold = cateold.getImages();
+			
+			// xu ly images
+			String fname ="";
+			String uploadPath = DIR;
+			File uploadDir = new File(uploadPath);
+			if (!uploadDir.exists()) {
+				uploadDir.mkdir();
+			}
+			
+			try {
+				Part part = req.getPart("images");
+				if(part.getSize() > 0) {
+					String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+					// doi ten file
+					int index = filename.lastIndexOf(".");
+					String ext = filename.substring(index+1);
+					fname = System.currentTimeMillis() + "." + ext;
+					//upload file
+					part.write(uploadPath + "/" + fname);
+					
+					//ghi ten file vao data
+					category.setImages(fname);
+				}else {
+					category.setImages(fileold);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 			cateService.update(category);
 			resp.sendRedirect(req.getContextPath() + "/admin/categories");
